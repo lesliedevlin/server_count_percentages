@@ -76,41 +76,28 @@ def get_halo_groups(session):
     with open('cloudpassage.yml') as config_settings:
         script_options_info = yaml.load(config_settings)
         root_group_id = script_options_info['defaults']['root_group_id']
-#        print root_group_id
-    group_reply=get_halo_groups_list.get_paginated("/v1/groups?parent_id=" + root_group_id ,"groups",15)
+        print("Root group id is %s.\n\n" % root_group_id)
+#    return halo_group_id_list
+    group_reply=get_halo_groups_list.get_paginated("/v2/groups?parent_id=" + root_group_id + "&descendants=true","groups",15)
     halo_group_id_list=[]
     halo_server_id_list=[]
     for group in group_reply:
-#        halo_group_id_list.append({'group_id':group['id'], 'group_name': group['name']})
+        halo_group_id_list.append({'group_id':group['id'], 'group_name': group['name']})
         group_id = group['id']
         group_name = group['name']
         group_has_children = group['has_children']
         print "\n"
         print "Group %s is %s" % (group_name, group_id)
-#        print "Has children?  ", + group_has_children
-        if group_has_children == True:
-            childrens_group_url = group['children_groups_url']
-            get_group_child_list = cloudpassage.HttpHelper(session)
-            child_reply=get_group_child_list.get_paginated(children_groups_url,"children",10)
-            child_id = child_reply['id']
-            child_name = child_reply['name']
-            print "Child groups %s is %s.\n" % (child_name, id_id)
-#        print "\n\n"
-#             print "Group has children.\n "
-#        else:
-#             print "Group does not have children.\n"
-
-#        get_halo_servers_list = cloudpassage.HttpHelper(session)
-##        servers_reply=get_halo_servers_list.get_paginated("/v1/servers?group_id=" + group_id + "\&state=active\&agent_version_lt=3.9.5\&descendants=true","servers",30)
-#        server_reply=get_halo_servers_list.get_paginated("/v1/servers?group_id=" + group_id + "&state=active&agent_version_lt=3.9.5","servers",30)
-#        for server in server_reply:
-#            server_name = server['name']
-#            server_agent_version = server['agent_version']
-#            print "Server %s is running version %s " % (server_name, server_agent_version)
-#            print "\n"
+        get_halo_servers_list = cloudpassage.HttpHelper(session)
+#        servers_reply=get_halo_servers_list.get_paginated("/v2/servers?group_id=" + group_id + "\&state=active\&agent_version_lt=3.9.5\&descendants=true","servers",30)
+        servers_reply=get_halo_servers_list.get_paginated("/v2/servers?group_id=" + group_id + "&state=active&agent_version_lt=3.9.5&descendants=true","servers",30)
+        for server in servers_reply:
+            server_hostname = server['hostname']
+            server_agent_version = server['agent_version']
+            print("Server %s is running version %s.\n\n" % (server_hostname, server_agent_version))
 #    halo_group_id_list = byteify(halo_group_id_list)
 #    print halo_group_id_list
-    return halo_group_id_list
+#    return halo_group_id_list
 
 
 
