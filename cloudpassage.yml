@@ -1,0 +1,7 @@
+defaults:
+    key_id: ''
+    secret_key: ''
+    api_hostname: "api.cloudpassage.com"
+    api_port: 443
+# root group in CP Training shared account - for testing purposes
+    root_group_id: "db01e5b0c8e50131e9a23c764e108057"
