@@ -77,7 +77,6 @@ def get_halo_groups(session):
         script_options_info = yaml.load(config_settings)
         root_group_id = script_options_info['defaults']['root_group_id']
         print("Root group id is %s.\n\n" % root_group_id)
-#    return halo_group_id_list
     group_reply=get_halo_groups_list.get_paginated("/v2/groups?parent_id=" + root_group_id + "&descendants=true","groups",15)
     halo_group_id_list=[]
     halo_server_id_list=[]
@@ -85,16 +84,19 @@ def get_halo_groups(session):
         halo_group_id_list.append({'group_id':group['id'], 'group_name': group['name']})
         group_id = group['id']
         group_name = group['name']
-        group_has_children = group['has_children']
         print "\n"
         print "Group %s is %s" % (group_name, group_id)
+# write to file
+        out_file = "reports/Agents_Report_" + group_name + time.strftime("%Y%m%d-%H%M%S") + ".csv"
+        ofile  = open(out_file, "w")
         get_halo_servers_list = cloudpassage.HttpHelper(session)
-#        servers_reply=get_halo_servers_list.get_paginated("/v2/servers?group_id=" + group_id + "\&state=active\&agent_version_lt=3.9.5\&descendants=true","servers",30)
         servers_reply=get_halo_servers_list.get_paginated("/v2/servers?group_id=" + group_id + "&state=active&agent_version_lt=3.9.5&descendants=true","servers",30)
         for server in servers_reply:
-            server_hostname = server['hostname']
-            server_agent_version = server['agent_version']
-            print("Server %s is running version %s.\n\n" % (server_hostname, server_agent_version))
+            if server:
+                row="'{0}',{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(server['hostname'],server['agent_version'],server['agent_started_at'],server['os_name'],server['os_version'],server['os_distribution'],server['os_architecture'],server['os_servicepack'],server['group_name'],server['group_name'])
+                print row
+#                ofile.write(row)
+
 #    halo_group_id_list = byteify(halo_group_id_list)
 #    print halo_group_id_list
 #    return halo_group_id_list
