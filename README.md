@@ -1,6 +1,44 @@
 # outdated_agents_report
 CloudPassage Halo outdated agents report
 
+Disclaimer: This script is provided as is. USE AT YOUR OWN RISK.
+NOT A SUPPORTED SOLUTION
+
+# Configure
+To configure script add API Key information to cloudpassage.yml File
+>key_id: your_api_key_id
+>secret_key: your_api_secret_key
+
+In cloudpassage.yml, set root_group_id to the group ID of your top-level group.
+This ID is a 32-character string that will appear in your URL after you log in, e.g.:
+
+https://portal.cloudpassage.com/halo/environment/group/<group-ID>/summary
+
+# Requirements
+
+This script requires Python 2.7.10 or greater
+This script requires the CloudPassage Python SDK
+> pip install cloudpassage
+
+This script requires the Requests Python module.
+>pip install requests
+
+Install from pip with pip install cloudpassage. If you want to make modification
+s to the SDK you can install it in editable mode by downloading the source from 
+this github repo, navigating to the top directory within the archive and running
+ pip install -e . (note the . at the end). Or you can visit https://github.com/c
+loudpassage/cloudpassage-halo-python-sdk to clone it directly from our github.
+
+
+# Running
+
+Run python halo_outdated_agents_report.py to generate individual .csv reports
+of agents 3.9.5 and older.
+
+The version number can be changed in the agent_version_lt field in the
+URL on line 80 of the code.  This is equivalent to the agent version 
+"less than" filter in the UI.
+
 
 # License
 
