@@ -32,12 +32,9 @@ loudpassage/cloudpassage-halo-python-sdk to clone it directly from our github.
 
 # Running
 
-Run python halo_outdated_agents_report.py to generate individual .csv reports
-of agents 3.9.5 and older.
+Run python halo_outdated_agents_report.py to generate .csv reports of agents 3.9.5 and older.  This script assumes that groups immediately below the root group represent business units and generates a report for each of those groups.
 
-The version number can be changed in the agent_version_lt field in the
-URL on line 80 of the code.  This is equivalent to the agent version 
-"less than" filter in the UI.
+The agent version number can be changed in the agent_version_lt field in the URL on line 80 of the code.  This is equivalent to the agent version "less than" filter in the UI.
 
 
 # License
