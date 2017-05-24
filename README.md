@@ -1,5 +1,5 @@
-# outdated_agents_report
-CloudPassage Halo outdated agents report
+# server_count_percentages
+CloudPassage Halo Server Count Percentages report
 
 Disclaimer: This script is provided as is. USE AT YOUR OWN RISK.
 NOT A SUPPORTED SOLUTION
@@ -32,9 +32,8 @@ loudpassage/cloudpassage-halo-python-sdk to clone it directly from our github.
 
 # Running
 
-Run python halo_outdated_agents_report.py to generate .csv reports of agents 3.9.5 and older.  This script assumes that groups immediately below the root group represent business units and generates a report for each of those groups.
+Run python server_count_percentages.py to generate a single .csv report of your organization's agent usage at the time you run the script. This script assumes that groups immediately below the root group represent business units and reports on the agent usage as a percentage of total account usage.  This can be used for estimating billbacks as well as general account usage auditing.
 
-The agent version number can be changed in the agent_version_lt field in the URL on line 80 of the code.  This is equivalent to the agent version "less than" filter in the UI.
 
 
 # License
