@@ -2,7 +2,7 @@
 #          of active servers.
 # Authors: Leslie Devlin and Sean Nicholson
 # Version 1.0.0
-# Date 05.17.2017
+# Date 05.24.2017
 ##############################################################################
 
 # Import Python Modules
@@ -82,7 +82,7 @@ def get_halo_groups(session):
     ofile.close()
 
 # get subgroup data
-    group_reply=get_halo_subgroups_list.get_paginated("/v2/groups?parent_id=" + root_group_id,"groups",15)
+    group_reply=get_halo_subgroups_list.get_paginated("/v2/groups?parent_id=" + root_group_id + "&per_page=100","groups",15)
     halo_subgroups_list=[]
     for group in group_reply:
         group_id=group['id']
@@ -93,34 +93,14 @@ def get_halo_groups(session):
         subgroup_missing=subgroup_totals_reply['missing']
         subgroup_deactiv=subgroup_totals_reply['deactivated']
         subgroup_total=subgroup_totals_reply['total']
-        subgroup_pct_active=float(subgroup_active) / float(root_active)
-        subgroup_pct_total=float(subgroup_total) / float(root_total)
-        print "Server Group Name: %s has:\n" \
-            "  Active: %s\n  Missing: %s\n  Deactivated: %s\
-              \n  Total: %s\n" % ( group_name, subgroup_active, \
-              subgroup_missing, subgroup_deactiv, subgroup_total )
-#       print " \% of Active: ", ( float(subgroup_active) / float(root_active)) 
-#       print " \% of Total: ", ( float(subgroup_total) / float(root_total)) 
-        print " \% of Active: %.2f\n ", subgroup_active
-        print " \% of Total:  %.2f\n", subgroup_total
+        subgroup_pct_active=(float(subgroup_active) / float(root_active))*100
+        subgroup_pct_total=(float(subgroup_total) / float(root_total))*100
+
 # write subgroup data to row
-    ofile = open(out_file, "w")
-    ofile.write('Group Name,Active,Missing,Deactivated,Group Total,Pct Active,Pct Total\n')
-    root_row="Root Group,{0},{1},{2},{3},100,100\n".format(root_active,root_missing,root_deactiv,root_total)
-    ofile.write(root_row)
-    ofile.close()
-#        halo_subgroups_list.append({'group_id':group['id'], 'group_name': group['name']})
-#        print halo_subgroups_list
-#        for subgroup in halo_subgroups_list:
-#            get_halo_totals = cloudpassage.HttpHelper(session)
-#            subgroup_reply=get_halo_totals.get_paginated("/v2/groups/" + group_id,"groups",30)
-#        print "ID: %s   Server Group Name: %s, has " \
-#            "Active: %s, Missing: %s, Deactivated: %s, Total: %s" % (
-#              group_id, group_name,
-#              subgroup['aggregated_server_counts']['active'],
-#              subgroup['aggregated_server_counts']['missing'],
-#              subgroup['aggregated_server_counts']['deactivated'],
-#              subgroup['aggregated_server_counts']['total'])
+        ofile = open(out_file, "a")
+        subgroup_row="{0},{1},{2},{3},{4},{5:.2f},{6:.2f}\n".format(group_name,subgroup_active,subgroup_missing,subgroup_deactiv,subgroup_total,subgroup_pct_active,subgroup_pct_total)
+        ofile.write(subgroup_row)
+        ofile.close()
 
 	
 
