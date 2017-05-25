@@ -2,7 +2,7 @@
 #          of active servers.
 # Authors: Leslie Devlin and Sean Nicholson
 # Version 1.0.0
-# Date 05.24.2017
+# Date 05.25.2017
 ##############################################################################
 
 # Import Python Modules
